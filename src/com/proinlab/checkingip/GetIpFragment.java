@@ -29,8 +29,6 @@ public class GetIpFragment extends SherlockFragment {
 	private boolean[] arStat;
 	private int COUNT_ON = 0;
 
-	private ArrayList<Thread> arThread = new ArrayList<Thread>();
-
 	public GetIpFragment() {
 	}
 
@@ -53,8 +51,8 @@ public class GetIpFragment extends SherlockFragment {
 		linear.addView(mListView);
 
 		arAddr = new ArrayList<String>();
-		for (int i = 40; i <= 50; i++)
-			arAddr.add("115.88.201." + Integer.toString(i));
+		for (int i = 0; i <= 25; i++)
+			arAddr.add("172.30.1." + Integer.toString(i));
 
 		arStat = new boolean[arAddr.size()];
 		for (int i = 0; i < arAddr.size(); i++)
@@ -68,10 +66,6 @@ public class GetIpFragment extends SherlockFragment {
 
 	public void onResume() {
 		super.onResume();
-		for (int i = 0; i < arThread.size(); i++) {
-			if (arThread.get(i) != null && arThread.get(i).isAlive())
-				arThread.get(i).interrupt();
-		}
 		System.gc();
 		COUNT_ON = 0;
 
@@ -79,6 +73,10 @@ public class GetIpFragment extends SherlockFragment {
 			arStat[i] = false;
 			ping(i);
 		}
+		
+		mAdapter.notifyDataSetChanged();
+		mTextView.setText("Activate : " + Integer.toString(COUNT_ON) + " / "
+				+ Integer.toString(arAddr.size()));
 	}
 
 	private Handler mHandler = new Handler() {
@@ -101,28 +99,28 @@ public class GetIpFragment extends SherlockFragment {
 			public void run() {
 				Process mProcess;
 				int stat = 0;
-
 				try {
 					String ipaddr = arAddr.get(position);
 					mProcess = new ProcessBuilder()
-							.command("/system/bin/ping", ipaddr)
+							.command("/system/bin/ping", "-c 4", ipaddr)
 							.redirectErrorStream(true).start();
 
 					InputStream in = mProcess.getInputStream();
 					BufferedReader reader = new BufferedReader(
 							new InputStreamReader(in));
-					if (reader.read() != -1) {
+					while (reader.read() != -1) {
 						Log.i("TAG", reader.readLine());
-						stat = 1;
+						if (!reader.readLine().contains("0 received"))
+							stat = 1;
+						else
+							stat = 0;
 					}
 
 					in.close();
-
 					mProcess.destroy();
 					mProcess = null;
 
 				} catch (Exception e) {
-					Log.i("TAG", "Exception");
 				}
 
 				final int statmsg = stat;
@@ -137,7 +135,6 @@ public class GetIpFragment extends SherlockFragment {
 
 			}
 		});
-		arThread.add(thread);
 		thread.start();
 	}
 }
