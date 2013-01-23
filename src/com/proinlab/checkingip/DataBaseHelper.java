@@ -3,7 +3,6 @@ package com.proinlab.checkingip;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Environment;
 
 public class DataBaseHelper extends SQLiteOpenHelper {
 
@@ -14,8 +13,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 	public static final String ROW_LIST_03_COUNT = "COUNT_VALUE";
 
 	public DataBaseHelper(Context context) {
-		super(context, Environment.getExternalStorageDirectory().toString()
-				+ "/.asdf/database.db", null, 1);
+		super(context, "database.db", null, 1);
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,10 +54,17 @@ public class GridFragment extends SherlockFragment {
 		linear.addView(mTextView);
 		linear.addView(mGridView);
 
+		int start = 0;
+		if (arg_data[1].lastIndexOf(".") != -1)
+			start = Integer.parseInt(arg_data[1].substring(arg_data[1]
+					.lastIndexOf(".") + 1));
+		else
+			start = 0;
 		arAddr = new ArrayList<String>();
-		for (int i = 0; i < Integer.parseInt(arg_data[3]); i++)
-			arAddr.add(arg_data[1] + Integer.toString(i));
-		
+		for (int i = start; i < start + Integer.parseInt(arg_data[3]); i++)
+			arAddr.add(arg_data[1].substring(0,
+					arg_data[1].lastIndexOf(".") + 1) + Integer.toString(i));
+
 		arStat = new boolean[arAddr.size()];
 		for (int i = 0; i < arAddr.size(); i++)
 			arStat[i] = false;
@@ -80,8 +88,9 @@ public class GridFragment extends SherlockFragment {
 		}
 
 		mAdapter.notifyDataSetChanged();
-		mTextView.setText("[ "+arg_data[1] + "* ] [ Activate : " + Integer.toString(COUNT_ON)
-				+ " / " + Integer.toString(arAddr.size())+" ]");
+		mTextView.setText("[ " + arg_data[1] + "* ] [ Activate : "
+				+ Integer.toString(COUNT_ON) + " / "
+				+ Integer.toString(arAddr.size()) + " ]");
 	}
 
 	private Handler mHandler = new Handler() {
@@ -92,8 +101,9 @@ public class GridFragment extends SherlockFragment {
 				arStat[msg.what] = true;
 				COUNT_ON++;
 			}
-			mTextView.setText("[ "+arg_data[1] + "* ] [ Activate : " + Integer.toString(COUNT_ON)
-					+ " / " + Integer.toString(arAddr.size())+" ]");
+			mTextView.setText("[ " + arg_data[1] + "* ] [ Activate : "
+					+ Integer.toString(COUNT_ON) + " / "
+					+ Integer.toString(arAddr.size()) + " ]");
 			mAdapter.notifyDataSetChanged();
 		}
 	};
@@ -107,7 +117,7 @@ public class GridFragment extends SherlockFragment {
 				try {
 					String ipaddr = arAddr.get(position);
 					mProcess = new ProcessBuilder()
-							.command("/system/bin/ping", "-c 1","-W 1", ipaddr)
+							.command("/system/bin/ping", "-c 1", "-W 1", ipaddr)
 							.redirectErrorStream(true).start();
 
 					InputStream in = mProcess.getInputStream();

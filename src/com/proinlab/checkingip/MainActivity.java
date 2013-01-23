@@ -144,11 +144,14 @@ public class MainActivity extends SherlockFragmentActivity implements
 								.findViewById(R.id.add_dialog_ip2);
 						EditText ip3 = (EditText) linear
 								.findViewById(R.id.add_dialog_ip3);
+						EditText ip4 = (EditText) linear
+								.findViewById(R.id.add_dialog_ip4);
 						EditText count = (EditText) linear
 								.findViewById(R.id.add_dialog_count);
 						String ip = ip1.getText().toString() + "."
 								+ ip2.getText().toString() + "."
-								+ ip3.getText().toString() + ".";
+								+ ip3.getText().toString() + "."
+								+ ip4.getText().toString();
 
 						if (Title.getText().toString().equals("No List")) {
 							Toast.makeText(MainActivity.this,

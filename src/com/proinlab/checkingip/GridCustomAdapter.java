@@ -45,7 +45,12 @@ class GridCustomAdapter extends BaseAdapter {
 		TextView StatView = (TextView) convertView
 				.findViewById(R.id.gridview_content);
 
-		StatView.setText(Integer.toString(position % 100));
+		String str = arAddr.get(position).substring(
+				arAddr.get(position).lastIndexOf(".") + 1);
+
+		// str = str.substring(str.length() - 2, str.length());
+		str = Integer.toString(position + 1);
+		StatView.setText(str);
 		if (arStat[position]) {
 			StatView.setBackgroundResource(R.drawable.on);
 		} else {
@@ -56,5 +61,4 @@ class GridCustomAdapter extends BaseAdapter {
 
 		return convertView;
 	}
-
 }
