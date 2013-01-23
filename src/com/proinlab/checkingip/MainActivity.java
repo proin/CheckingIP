@@ -15,7 +15,8 @@ public class MainActivity extends SherlockFragmentActivity implements
 		ActionBar.OnNavigationListener {
 
 	private static final String STATE_SELECTED_NAVIGATION_ITEM = "selected_navigation_item";
-
+	private Fragment fragment;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -26,7 +27,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 
-		String[] dropboxList = { "8.8.8.8", "115.88.201.43", "naver.com", };
+		String[] dropboxList = {"Test"};
 
 		actionBar.setListNavigationCallbacks(new ArrayAdapter<String>(
 				getActionBarThemedContextCompat(),
@@ -42,8 +43,8 @@ public class MainActivity extends SherlockFragmentActivity implements
 
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.menu_settings:
-			
+		case R.id.menu_sync:
+			fragment.onResume();
 			return true;
 		}
 		return false;
@@ -73,7 +74,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 
 	@Override
 	public boolean onNavigationItemSelected(int position, long id) {
-		Fragment fragment = new GetIpFragment();
+		fragment = new GetIpFragment();
 		Bundle args = new Bundle();
 		args.putInt(GetIpFragment.ARG_SECTION_NUMBER, position);
 		fragment.setArguments(args);
