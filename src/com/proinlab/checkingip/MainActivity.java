@@ -39,7 +39,7 @@ public class MainActivity extends SherlockFragmentActivity implements
 		actionBar = getSupportActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-
+		
 		mHelper = new DataBaseHelper(this);
 
 	}
@@ -153,6 +153,16 @@ public class MainActivity extends SherlockFragmentActivity implements
 								+ ip3.getText().toString() + "."
 								+ ip4.getText().toString();
 
+						if (Title.getText().length() == 0
+								|| ip1.getText().length() == 0
+								|| ip2.getText().length() == 0
+								|| ip3.getText().length() == 0
+								|| ip4.getText().length() == 0
+								|| count.getText().length() == 0) {
+							AddDialog();
+							return;
+						}
+						
 						if (Title.getText().toString().equals("No List")) {
 							Toast.makeText(MainActivity.this,
 									"추가 할 수 없는 단어입니다.", Toast.LENGTH_LONG)

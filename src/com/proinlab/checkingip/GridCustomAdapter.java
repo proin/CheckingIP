@@ -48,7 +48,10 @@ class GridCustomAdapter extends BaseAdapter {
 		String str = arAddr.get(position).substring(
 				arAddr.get(position).lastIndexOf(".") + 1);
 
+		// if (str.length() > 1)
 		// str = str.substring(str.length() - 2, str.length());
+		// else
+		// str = str.substring(str.length() - 1, str.length());
 		str = Integer.toString(position + 1);
 		StatView.setText(str);
 		if (arStat[position]) {
