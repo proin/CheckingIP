@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockFragment;
 
 public class GridFragment extends SherlockFragment {
-	public static final String ARG_SECTION_NUMBER = "section_number";
+	public static final String ARG_SECTION_DATA = "section_data";
 
 	private GridCustomAdapter mAdapter;
 	private GridView mGridView;
@@ -28,12 +28,15 @@ public class GridFragment extends SherlockFragment {
 	private boolean[] arStat;
 	private int COUNT_ON = 0;
 
+	private String[] arg_data = null;
+
 	public GridFragment() {
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		arg_data = getArguments().getStringArray(ARG_SECTION_DATA);
 
 		LinearLayout linear = new LinearLayout(getActivity());
 		linear.setOrientation(LinearLayout.VERTICAL);
@@ -51,8 +54,8 @@ public class GridFragment extends SherlockFragment {
 		linear.addView(mGridView);
 
 		arAddr = new ArrayList<String>();
-		for (int i = 0; i < 50; i++)
-			arAddr.add("172.30.1." + Integer.toString(i));
+		for (int i = 0; i < Integer.parseInt(arg_data[3]); i++)
+			arAddr.add(arg_data[1] + Integer.toString(i));
 		
 		arStat = new boolean[arAddr.size()];
 		for (int i = 0; i < arAddr.size(); i++)
@@ -67,6 +70,8 @@ public class GridFragment extends SherlockFragment {
 	public void onResume() {
 		super.onResume();
 		System.gc();
+		arg_data = getArguments().getStringArray(ARG_SECTION_DATA);
+
 		COUNT_ON = 0;
 
 		for (int i = 0; i < arAddr.size(); i++) {
@@ -75,8 +80,8 @@ public class GridFragment extends SherlockFragment {
 		}
 
 		mAdapter.notifyDataSetChanged();
-		mTextView.setText("Activate : " + Integer.toString(COUNT_ON) + " / "
-				+ Integer.toString(arAddr.size()));
+		mTextView.setText("[ "+arg_data[1] + "* ] [ Activate : " + Integer.toString(COUNT_ON)
+				+ " / " + Integer.toString(arAddr.size())+" ]");
 	}
 
 	private Handler mHandler = new Handler() {
@@ -87,14 +92,11 @@ public class GridFragment extends SherlockFragment {
 				arStat[msg.what] = true;
 				COUNT_ON++;
 			}
-			mTextView.setText("Activate : " + Integer.toString(COUNT_ON)
-					+ " / " + Integer.toString(arAddr.size()));
-			// mTextView.setText(str);
+			mTextView.setText("[ "+arg_data[1] + "* ] [ Activate : " + Integer.toString(COUNT_ON)
+					+ " / " + Integer.toString(arAddr.size())+" ]");
 			mAdapter.notifyDataSetChanged();
 		}
 	};
-
-	// private String str = "";
 
 	private void ping(final int position) {
 		Thread thread = new Thread(new Runnable() {
@@ -105,7 +107,7 @@ public class GridFragment extends SherlockFragment {
 				try {
 					String ipaddr = arAddr.get(position);
 					mProcess = new ProcessBuilder()
-							.command("/system/bin/ping", "-c 1", ipaddr)
+							.command("/system/bin/ping", "-c 1","-W 1", ipaddr)
 							.redirectErrorStream(true).start();
 
 					InputStream in = mProcess.getInputStream();

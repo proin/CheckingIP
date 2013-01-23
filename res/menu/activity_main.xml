@@ -3,10 +3,17 @@
     <item
         android:id="@+id/menu_settings"
         android:orderInCategory="100"
-        android:title="@string/menu_settings" android:showAsAction="never"/>
+        android:showAsAction="never"
+        android:title="@string/menu_settings"/>
     <item
         android:id="@+id/menu_sync"
         android:icon="@android:drawable/stat_notify_sync"
+        android:title="Sync"
+        android:showAsAction="always"/>
+    <item
+        android:id="@+id/menu_delete"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="Del"
         android:showAsAction="always"/>
 
 </menu>
