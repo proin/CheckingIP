@@ -12,23 +12,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 
-public class GetIpFragment extends SherlockFragment {
+public class GridFragment extends SherlockFragment {
 	public static final String ARG_SECTION_NUMBER = "section_number";
 
-	private ListViewCustomAdapter mAdapter;
-	private ListView mListView;
+	private GridCustomAdapter mAdapter;
+	private GridView mGridView;
 	private TextView mTextView;
 	private ArrayList<String> arAddr;
 	private boolean[] arStat;
 	private int COUNT_ON = 0;
 
-	public GetIpFragment() {
+	public GridFragment() {
 	}
 
 	@Override
@@ -39,7 +39,8 @@ public class GetIpFragment extends SherlockFragment {
 		linear.setOrientation(LinearLayout.VERTICAL);
 
 		mTextView = new TextView(getActivity());
-		mListView = new ListView(getActivity());
+		mGridView = new GridView(getActivity());
+		mGridView.setNumColumns(10);
 
 		LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
@@ -47,18 +48,18 @@ public class GetIpFragment extends SherlockFragment {
 		mTextView.setLayoutParams(llp);
 		mTextView.setTextSize(15);
 		linear.addView(mTextView);
-		linear.addView(mListView);
+		linear.addView(mGridView);
 
 		arAddr = new ArrayList<String>();
-		for (int i = 0; i <= 25; i++)
+		for (int i = 0; i < 50; i++)
 			arAddr.add("172.30.1." + Integer.toString(i));
 		
 		arStat = new boolean[arAddr.size()];
 		for (int i = 0; i < arAddr.size(); i++)
 			arStat[i] = false;
 
-		mAdapter = new ListViewCustomAdapter(getActivity(), arAddr, arStat);
-		mListView.setAdapter(mAdapter);
+		mAdapter = new GridCustomAdapter(getActivity(), arAddr, arStat);
+		mGridView.setAdapter(mAdapter);
 
 		return linear;
 	}

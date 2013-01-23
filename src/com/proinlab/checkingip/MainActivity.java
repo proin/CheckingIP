@@ -74,9 +74,9 @@ public class MainActivity extends SherlockFragmentActivity implements
 
 	@Override
 	public boolean onNavigationItemSelected(int position, long id) {
-		fragment = new GetIpFragment();
+		fragment = new GridFragment();
 		Bundle args = new Bundle();
-		args.putInt(GetIpFragment.ARG_SECTION_NUMBER, position);
+		args.putInt(GridFragment.ARG_SECTION_NUMBER, position);
 		fragment.setArguments(args);
 		getSupportFragmentManager().beginTransaction()
 				.replace(R.id.container, fragment).commit();
