@@ -78,7 +78,6 @@ public class MainActivity extends SherlockFragmentActivity implements
 			} else {
 				fragment.onResume();
 			}
-
 			return true;
 		case R.id.menu_delete:
 			DeleteDialog();
@@ -152,6 +151,16 @@ public class MainActivity extends SherlockFragmentActivity implements
 								+ ip2.getText().toString() + "."
 								+ ip3.getText().toString() + "."
 								+ ip4.getText().toString();
+
+						if (Title.getText().length() == 0
+								|| ip1.getText().length() == 0
+								|| ip2.getText().length() == 0
+								|| ip3.getText().length() == 0
+								|| ip4.getText().length() == 0
+								|| count.getText().length() == 0) {
+							AddDialog();
+							return;
+						}
 
 						if (Title.getText().toString().equals("No List")) {
 							Toast.makeText(MainActivity.this,
